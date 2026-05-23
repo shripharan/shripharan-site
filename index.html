@@ -13,7 +13,7 @@
       --cream: #ffffff;
       --ink: #1a1814;
       --ink-mid: #555050;
-      --ink-faint: #ffffff;
+      --ink-faint: #999490;
       --black: #0d0d0d;
     }
 
@@ -42,6 +42,8 @@
       grid-template-columns: 1fr 1fr 1fr;
       padding: 1.4rem 1.8rem;
       pointer-events: none;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(8px);
     }
 
     .topbar > * { pointer-events: all; }
@@ -70,14 +72,14 @@
       color: var(--ink);
     }
 
-    /* ── HERO SPREAD ── */
+    /* ── HERO ── */
     .hero {
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      padding: 6rem 1.8rem;
+      padding: 6rem 1.8rem 5rem;
     }
 
     .hero-back {
@@ -86,6 +88,9 @@
       left: 1.8rem;
       font-size: 9px;
       color: var(--ink-mid);
+      cursor: pointer;
+      user-select: none;
+      padding: 8px;
     }
 
     .hero-next {
@@ -94,9 +99,13 @@
       right: 1.8rem;
       font-size: 9px;
       color: var(--ink-mid);
+      cursor: pointer;
+      user-select: none;
+      padding: 8px;
     }
 
-    /* the "print" sitting on the page */
+    .hero-back:hover, .hero-next:hover { color: var(--ink); }
+
     .print-wrap {
       width: min(580px, 88vw);
       position: relative;
@@ -105,32 +114,21 @@
     .print-img {
       width: 100%;
       aspect-ratio: 4/3;
-      background: #c8c4bc;
+      background: #e8e8e8;
       overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       position: relative;
     }
 
-.print-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: opacity 0.15s ease;
-  position: relative;
-  top: 0;
-  left: 0;
-}
-
-    .print-placeholder {
-      font-size: 9px;
-      color: #999;
-      letter-spacing: 0.2em;
+    .print-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
     }
 
-    /* bottom edge labels like Rue Studio */
     .hero-bottom {
       position: absolute;
       bottom: 1.8rem;
@@ -167,93 +165,9 @@
     .divider {
       height: 1px;
       background: var(--ink);
-      margin: 0;
     }
 
-    /* ── FOOTER PANEL (dark) ── */
-    .footer-panel {
-      background: var(--black);
-      color: var(--cream);
-      padding: 3rem 1.8rem 2rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 3rem;
-      min-height: 60vh;
-      align-content: start;
-      position: relative;
-    }
-
-    .fp-col-title {
-      font-size: 10px;
-      color: #666;
-      margin-bottom: 1.2rem;
-      letter-spacing: 0.14em;
-    }
-
-    .fp-name {
-      font-size: 11px;
-      letter-spacing: 0.16em;
-      color: var(--cream);
-    }
-
-    .service-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-
-    .service-list li {
-      font-size: 10px;
-      line-height: 2;
-      color: var(--cream);
-      letter-spacing: 0.1em;
-      cursor: pointer;
-      transition: opacity 0.2s;
-    }
-
-    .service-list li:hover { opacity: 0.4; }
-
-    .service-list .s-gap { margin-top: 0.8rem; }
-
-    .fp-nav {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 4px;
-    }
-
-    .fp-nav a {
-      font-size: 10px;
-      color: var(--cream);
-      line-height: 2;
-      display: block;
-    }
-
-    /* ── BOTTOM STRIP ── */
-    .footer-bottom {
-      background: var(--black);
-      border-top: 1px solid #222;
-      padding: 1.5rem 1.8rem 2rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: end;
-    }
-
-    .fb-statement {
-      font-size: 10px;
-      line-height: 2.2;
-      color: #555;
-      max-width: 280px;
-    }
-
-    .fb-copy {
-      text-align: right;
-      font-size: 9px;
-      color: #444;
-    }
-
-    /* ── WORK SECTION ── */
+    /* ── WORK ── */
     .work-section {
       padding: 5rem 1.8rem;
       background: var(--cream);
@@ -284,16 +198,11 @@
     .work-row:hover { opacity: 0.5; }
 
     .w-num { font-size: 9px; color: var(--ink-faint); }
-
-    .w-name {
-      font-size: 11px;
-      letter-spacing: 0.1em;
-    }
-
+    .w-name { font-size: 11px; letter-spacing: 0.1em; }
     .w-type { font-size: 9px; color: var(--ink-mid); }
     .w-year { font-size: 9px; color: var(--ink-mid); text-align: right; }
 
-    /* ── ABOUT STRIP ── */
+    /* ── ABOUT ── */
     .about-strip {
       padding: 5rem 1.8rem;
       background: var(--cream);
@@ -337,7 +246,7 @@
     .dl-key { color: var(--ink-faint); }
     .dl-val { color: var(--ink); text-align: right; }
 
-    /* ── PHOTO SECTION ── */
+    /* ── PHOTOS ── */
     .photo-section {
       padding: 5rem 1.8rem;
       background: var(--cream);
@@ -388,21 +297,124 @@
       letter-spacing: 0.18em;
     }
 
+    /* ── FOOTER ── */
+    .footer-panel {
+      background: var(--black);
+      color: var(--cream);
+      padding: 3rem 1.8rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 3rem;
+      min-height: 60vh;
+      align-content: start;
+    }
+
+    .fp-col-title {
+      font-size: 10px;
+      color: #666;
+      margin-bottom: 1.2rem;
+      letter-spacing: 0.14em;
+    }
+
+    .fp-name { font-size: 11px; letter-spacing: 0.16em; color: var(--cream); }
+
+    .service-list { list-style: none; }
+
+    .service-list li {
+      font-size: 10px;
+      line-height: 2;
+      color: var(--cream);
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .service-list li:hover { opacity: 0.4; }
+    .service-list .s-gap { margin-top: 0.8rem; }
+
+    .fp-nav { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+    .fp-nav a { font-size: 10px; color: var(--cream); line-height: 2; display: block; }
+
+    .footer-bottom {
+      background: var(--black);
+      border-top: 1px solid #222;
+      padding: 1.5rem 1.8rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: end;
+    }
+
+    .fb-statement { font-size: 10px; line-height: 2.2; color: #555; max-width: 280px; }
+    .fb-copy { text-align: right; font-size: 9px; color: #444; }
+
     /* ── MOBILE ── */
     @media (max-width: 640px) {
-      .topbar { grid-template-columns: 1fr 1fr; }
+      .topbar {
+        grid-template-columns: 1fr 1fr;
+        padding: 1rem 1.2rem;
+      }
       .tb-center { display: none; }
-      .hero-bottom { grid-template-columns: 1fr 1fr; }
+
+      .hero {
+        padding: 5rem 1.2rem 8rem;
+        min-height: 100svh;
+      }
+
+      .print-wrap { width: 100%; }
+
+      .print-img { aspect-ratio: 3/4; }
+
+      .hero-back { left: 1rem; font-size: 10px; bottom: 4rem; }
+      .hero-next { right: 1rem; font-size: 10px; bottom: 4rem; }
+
+      .hero-bottom {
+        grid-template-columns: 1fr 1fr;
+        bottom: 1.2rem;
+        left: 1.2rem;
+        right: 1.2rem;
+      }
+
       .hb-center { display: none; }
-      .footer-panel { grid-template-columns: 1fr; gap: 2rem; }
-      .fp-nav { align-items: flex-start; }
-      .footer-bottom { grid-template-columns: 1fr; gap: 1rem; }
-      .fb-copy { text-align: left; }
-      .about-strip { grid-template-columns: 1fr; gap: 3rem; }
-      .work-row { grid-template-columns: 40px 1fr 60px; }
+      .hb-right { gap: 1.2rem; }
+
+      .work-section { padding: 3rem 1.2rem; }
+      .work-row {
+        grid-template-columns: 30px 1fr;
+        gap: 1rem;
+        padding: 1rem 0;
+      }
+      .w-type { display: none; }
       .w-year { display: none; }
-      .photo-grid { grid-template-columns: 1fr 1fr; }
-      .photo-cell:first-child { grid-column: span 2; }
+      .w-name { font-size: 10px; }
+
+      .about-strip {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        padding: 3rem 1.2rem;
+      }
+
+      .detail-list li { flex-direction: column; gap: 4px; }
+      .dl-val { text-align: left; }
+
+      .photo-section { padding: 3rem 1.2rem; }
+      .photo-grid { grid-template-columns: 1fr 1fr; gap: 2px; }
+      .photo-cell:first-child { grid-column: span 2; aspect-ratio: 16/9; }
+      .photo-cell { aspect-ratio: 1; }
+
+      .footer-panel {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 2.5rem 1.2rem;
+        min-height: auto;
+      }
+      .fp-nav { align-items: flex-start; }
+
+      .footer-bottom {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+        padding: 1.2rem;
+      }
+      .fb-copy { text-align: left; }
     }
   </style>
 </head>
@@ -414,9 +426,7 @@
       <span>Sangeeth Shripharan</span>
       <span>Portfolio, &copy;2026</span>
     </div>
-    <div class="tb-center">
-      Leicester, England
-    </div>
+    <div class="tb-center">Leicester, England</div>
     <nav class="tb-right">
       <a href="#work">Work</a>
       <a href="#about">About</a>
@@ -429,7 +439,7 @@
     <span class="hero-back" onclick="changePhoto(-1)">Back</span>
     <span class="hero-next" onclick="changePhoto(1)">Next</span>
 
- <div class="print-wrap">
+    <div class="print-wrap">
       <div class="print-img">
         <img id="hero-img" src="photos/photo.jpg" alt="Hero" />
       </div>
@@ -438,10 +448,10 @@
     <div class="hero-bottom">
       <div class="hb-left">
         Sangeeth Shripharan is a designer<br>
-        and architecture student 
+        and architecture student
       </div>
       <div class="hb-center">
-        SHRIPHARAN ARCHIVE,<br>
+        Shripharan Archive,<br>
         London, &copy;2026
       </div>
       <div class="hb-right">
@@ -460,23 +470,22 @@
       <span class="work-title">Selected Work</span>
       <span class="work-count">004</span>
     </div>
-
     <div class="work-row">
       <span class="w-num">001</span>
-      <span class="w-name">ARCHIVE 01</span>
+      <span class="w-name">Archive 01</span>
       <span class="w-type">Architecture</span>
       <span class="w-year">2026</span>
     </div>
     <div class="work-row">
       <span class="w-num">002</span>
-      <span class="w-name">ARCHIVE 02</span>
+      <span class="w-name">Archive 02</span>
       <span class="w-type">Spatial Design</span>
       <span class="w-year">2026</span>
     </div>
     <div class="work-row">
       <span class="w-num">003</span>
-      <span class="w-name">ITERA</span>
-      <span class="w-type">touchdesigner, python and claude code</span>
+      <span class="w-name">Itera</span>
+      <span class="w-type">Touchdesigner, Python, Claude</span>
       <span class="w-year">2026</span>
     </div>
     <div class="work-row">
@@ -492,8 +501,8 @@
     <div>
       <div class="as-label">Studio</div>
       <p class="as-body">
-       Sangeeth Shripharan is a final-year architecture student and freelance graphic designer, looking to start his career as a Part 1 Architectural
-       Assistant after graduation. 
+        Sangeeth Shripharan is a final-year architecture student and freelance graphic designer,
+        looking to start his career as a <strong>Part 1 Architectural Assistant</strong> after graduation.
       </p>
     </div>
     <div>
@@ -502,11 +511,10 @@
         <li><span class="dl-key">Education</span><span class="dl-val">Leicester School of Architecture</span></li>
         <li><span class="dl-key">Degree</span><span class="dl-val">Architecture BA</span></li>
         <li><span class="dl-key">Location</span><span class="dl-val">London, United Kingdom</span></li>
-        <li><span class="dl-key">Available</span><span class="dl-val">ITERA</span></li>
-        <li><span class="dl-key">Next</span><span class="dl-val">ARCHIVE 04, July 2026</span></li>
+        <li><span class="dl-key">Available</span><span class="dl-val">Summer 2026</span></li>
+        <li><span class="dl-key">Next</span><span class="dl-val">Archive 04, July 2026</span></li>
         <li>
           <span class="dl-key">Contact</span>
-          <!-- UPDATE YOUR EMAIL HERE -->
           <span class="dl-val"><a href="mailto:sangeethshripharan@gmail.com">sangeethshripharan@gmail.com</a></span>
         </li>
       </ul>
@@ -520,25 +528,24 @@
       <span style="color:var(--ink-faint); font-size:9px;">Selected Frames</span>
     </div>
     <div class="photo-grid">
-      <!-- Drop your images in a /photos/ folder and update src paths -->
       <div class="photo-cell">
-        <img src="/photos/photo-01.jpg" alt="01" onerror="this.style.display='none'" />
+        <img src="photos/photo (2).png" alt="01" onerror="this.style.display='none'" />
         <span class="photo-num">001</span>
       </div>
       <div class="photo-cell">
-        <img src="/photos/photo-02.jpg" alt="02" onerror="this.style.display='none'" />
+        <img src="photos/photo (3).png" alt="02" onerror="this.style.display='none'" />
         <span class="photo-num">002</span>
       </div>
       <div class="photo-cell">
-        <img src="/photos/photo-03.jpg" alt="03" onerror="this.style.display='none'" />
+        <img src="photos/photo (4).png" alt="03" onerror="this.style.display='none'" />
         <span class="photo-num">003</span>
       </div>
       <div class="photo-cell">
-        <img src="/photos/photo-04.jpg" alt="04" onerror="this.style.display='none'" />
+        <img src="photos/photo (5).png" alt="04" onerror="this.style.display='none'" />
         <span class="photo-num">004</span>
       </div>
       <div class="photo-cell">
-        <img src="/photos/photo-05.jpg" alt="05" onerror="this.style.display='none'" />
+        <img src="photos/photo (6).png" alt="05" onerror="this.style.display='none'" />
         <span class="photo-num">005</span>
       </div>
     </div>
@@ -546,13 +553,12 @@
 
   <div class="divider"></div>
 
-  <!-- FOOTER PANEL (dark) -->
+  <!-- FOOTER -->
   <footer class="footer-panel" id="contact">
     <div>
       <div class="fp-col-title">Studio</div>
       <div class="fp-name">Sangeeth Shripharan</div>
     </div>
-
     <div>
       <div class="fp-col-title">Practice</div>
       <ul class="service-list">
@@ -564,11 +570,9 @@
         <li>Brand &amp; Identity</li>
         <li class="s-gap">Press</li>
         <li class="s-gap">shripharan.com</li>
-        <!-- UPDATE YEAR BELOW -->
         <li>[Leicester] 2026</li>
       </ul>
     </div>
-
     <div class="fp-nav">
       <a href="#work">Work</a>
       <a href="#about">About</a>
@@ -579,36 +583,34 @@
 
   <div class="footer-bottom">
     <div class="fb-statement">
-      DIGIAL ARCHIVE<br>
+      Digital Archive<br>
       &copy;2026 Sangeeth Shripharan
     </div>
     <div class="fb-copy">&copy;2026</div>
   </div>
-<script>
-  const photos = [
-    'photos/photo.jpg',
-    'photos/photo (2).png',
-    'photos/photo (3).png',
-    'photos/photo (4).png',
-    'photos/photo (5).png',
-    'photos/photo (6).png',
-    'photos/photo (7).png',
-    'photos/photo (8).png',
-    'photos/photo (9).png',
 
-  ];
+  <script>
+    const photos = [
+      'photos/photo.jpg',
+      'photos/photo (2).png',
+      'photos/photo (3).png',
+      'photos/photo (4).png',
+      'photos/photo (5).png',
+      'photos/photo (6).png',
+      'photos/photo (7).png',
+      'photos/photo (8).png',
+      'photos/photo (9).png',
+    ];
 
-  let current = 0;
+    let current = 0;
 
-  function changePhoto(dir) {
-    current = (current + dir + photos.length) % photos.length;
-    const img = document.getElementById('hero-img');
-    const newImg = new Image();
-    newImg.src = photos[current];
-    newImg.onload = () => {
-      img.src = photos[current];
-    };
-  }
-</script>
+    function changePhoto(dir) {
+      current = (current + dir + photos.length) % photos.length;
+      const img = document.getElementById('hero-img');
+      const newImg = new Image();
+      newImg.src = photos[current];
+      newImg.onload = () => { img.src = photos[current]; };
+    }
+  </script>
 </body>
 </html>

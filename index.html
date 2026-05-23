@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SANGEETH SHRIPHARAN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f0ece4;
+      --ink: #1a1814;
+      --ink-mid: #555050;
+      --ink-faint: #999490;
+      --black: #0d0d0d;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: crosshair;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    a:hover { opacity: 0.5; }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      padding: 1.4rem 1.8rem;
+      pointer-events: none;
+    }
+
+    .topbar > * { pointer-events: all; }
+
+    .tb-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-size: 9px;
+      line-height: 1.6;
+      color: var(--ink-mid);
+    }
+
+    .tb-center {
+      text-align: center;
+      font-size: 9px;
+      color: var(--ink-mid);
+    }
+
+    .tb-right {
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-start;
+      gap: 2.5rem;
+      font-size: 9px;
+      color: var(--ink);
+    }
+
+    /* ── HERO SPREAD ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 6rem 1.8rem;
+    }
+
+    .hero-back {
+      position: absolute;
+      bottom: 42%;
+      left: 1.8rem;
+      font-size: 9px;
+      color: var(--ink-mid);
+    }
+
+    .hero-next {
+      position: absolute;
+      bottom: 42%;
+      right: 1.8rem;
+      font-size: 9px;
+      color: var(--ink-mid);
+    }
+
+    /* the "print" sitting on the page */
+    .print-wrap {
+      width: min(580px, 88vw);
+      position: relative;
+    }
+
+    .print-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: #c8c4bc;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .print-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .print-placeholder {
+      font-size: 9px;
+      color: #999;
+      letter-spacing: 0.2em;
+    }
+
+    /* bottom edge labels like Rue Studio */
+    .hero-bottom {
+      position: absolute;
+      bottom: 1.8rem;
+      left: 1.8rem;
+      right: 1.8rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      align-items: end;
+    }
+
+    .hb-left {
+      font-size: 9px;
+      line-height: 1.8;
+      color: var(--ink-mid);
+      max-width: 200px;
+    }
+
+    .hb-center {
+      font-size: 9px;
+      line-height: 1.8;
+      color: var(--ink-mid);
+      text-align: center;
+    }
+
+    .hb-right {
+      display: flex;
+      justify-content: flex-end;
+      gap: 2.5rem;
+      font-size: 9px;
+      color: var(--ink);
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: var(--ink);
+      margin: 0;
+    }
+
+    /* ── FOOTER PANEL (dark) ── */
+    .footer-panel {
+      background: var(--black);
+      color: var(--cream);
+      padding: 3rem 1.8rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 3rem;
+      min-height: 60vh;
+      align-content: start;
+      position: relative;
+    }
+
+    .fp-col-title {
+      font-size: 10px;
+      color: #666;
+      margin-bottom: 1.2rem;
+      letter-spacing: 0.14em;
+    }
+
+    .fp-name {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      color: var(--cream);
+    }
+
+    .service-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .service-list li {
+      font-size: 10px;
+      line-height: 2;
+      color: var(--cream);
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .service-list li:hover { opacity: 0.4; }
+
+    .service-list .s-gap { margin-top: 0.8rem; }
+
+    .fp-nav {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    .fp-nav a {
+      font-size: 10px;
+      color: var(--cream);
+      line-height: 2;
+      display: block;
+    }
+
+    /* ── BOTTOM STRIP ── */
+    .footer-bottom {
+      background: var(--black);
+      border-top: 1px solid #222;
+      padding: 1.5rem 1.8rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: end;
+    }
+
+    .fb-statement {
+      font-size: 10px;
+      line-height: 2.2;
+      color: #555;
+      max-width: 280px;
+    }
+
+    .fb-copy {
+      text-align: right;
+      font-size: 9px;
+      color: #444;
+    }
+
+    /* ── WORK SECTION ── */
+    .work-section {
+      padding: 5rem 1.8rem;
+      background: var(--cream);
+    }
+
+    .work-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 3rem;
+    }
+
+    .work-title { font-size: 10px; }
+    .work-count { font-size: 9px; color: var(--ink-mid); }
+
+    .work-row {
+      display: grid;
+      grid-template-columns: 60px 1fr 80px 80px;
+      align-items: center;
+      padding: 1.2rem 0;
+      border-top: 1px solid rgba(26,24,20,0.15);
+      gap: 2rem;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .work-row:last-child { border-bottom: 1px solid rgba(26,24,20,0.15); }
+    .work-row:hover { opacity: 0.5; }
+
+    .w-num { font-size: 9px; color: var(--ink-faint); }
+
+    .w-name {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+    }
+
+    .w-type { font-size: 9px; color: var(--ink-mid); }
+    .w-year { font-size: 9px; color: var(--ink-mid); text-align: right; }
+
+    /* ── ABOUT STRIP ── */
+    .about-strip {
+      padding: 5rem 1.8rem;
+      background: var(--cream);
+      border-top: 1px solid rgba(26,24,20,0.15);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+    }
+
+    .as-label { font-size: 9px; color: var(--ink-mid); margin-bottom: 1.5rem; }
+
+    .as-body {
+      font-size: 10px;
+      line-height: 2.2;
+      color: var(--ink-mid);
+      text-transform: none;
+      letter-spacing: 0.04em;
+      font-weight: 300;
+    }
+
+    .as-body strong {
+      color: var(--ink);
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .detail-list {
+      list-style: none;
+      border-top: 1px solid rgba(26,24,20,0.15);
+    }
+
+    .detail-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid rgba(26,24,20,0.15);
+      font-size: 9px;
+    }
+
+    .dl-key { color: var(--ink-faint); }
+    .dl-val { color: var(--ink); text-align: right; }
+
+    /* ── PHOTO SECTION ── */
+    .photo-section {
+      padding: 5rem 1.8rem;
+      background: var(--cream);
+      border-top: 1px solid rgba(26,24,20,0.15);
+    }
+
+    .photo-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 3rem;
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3px;
+    }
+
+    .photo-cell {
+      aspect-ratio: 3/4;
+      background: #d8d4cc;
+      overflow: hidden;
+      position: relative;
+      cursor: crosshair;
+    }
+
+    .photo-cell:first-child {
+      grid-column: span 2;
+      aspect-ratio: unset;
+    }
+
+    .photo-cell img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(30%);
+      transition: filter 0.5s ease;
+    }
+
+    .photo-cell:hover img { filter: grayscale(0%); }
+
+    .photo-num {
+      position: absolute;
+      bottom: 8px; left: 10px;
+      font-size: 8px;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.18em;
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 640px) {
+      .topbar { grid-template-columns: 1fr 1fr; }
+      .tb-center { display: none; }
+      .hero-bottom { grid-template-columns: 1fr 1fr; }
+      .hb-center { display: none; }
+      .footer-panel { grid-template-columns: 1fr; gap: 2rem; }
+      .fp-nav { align-items: flex-start; }
+      .footer-bottom { grid-template-columns: 1fr; gap: 1rem; }
+      .fb-copy { text-align: left; }
+      .about-strip { grid-template-columns: 1fr; gap: 3rem; }
+      .work-row { grid-template-columns: 40px 1fr 60px; }
+      .w-year { display: none; }
+      .photo-grid { grid-template-columns: 1fr 1fr; }
+      .photo-cell:first-child { grid-column: span 2; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="tb-left">
+      <span>Sangeeth Shripharan</span>
+      <span>Portfolio, &copy;2025</span>
+    </div>
+    <div class="tb-center">
+      Leicester, England
+    </div>
+    <nav class="tb-right">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Index</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <div class="hero">
+    <span class="hero-back">Back</span>
+    <span class="hero-next">Next</span>
+
+    <div class="print-wrap">
+      <div class="print-img">
+         <img src="photos/photo.jpg" alt="Hero" />
+     </div>
+      </div>
+    </div>
+
+    <div class="hero-bottom">
+      <div class="hb-left">
+        Sangeeth Shripharan is a designer<br>
+        and architecture student 
+      </div>
+      <div class="hb-center">
+        SHRIPHARAN ARCHIVE,<br>
+        London, &copy;2025
+      </div>
+      <div class="hb-right">
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#contact">Index</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- WORK -->
+  <section class="work-section" id="work">
+    <div class="work-header">
+      <span class="work-title">Selected Work</span>
+      <span class="work-count">004</span>
+    </div>
+
+    <div class="work-row">
+      <span class="w-num">001</span>
+      <span class="w-name">ARCHIVE 01</span>
+      <span class="w-type">Architecture</span>
+      <span class="w-year">2025</span>
+    </div>
+    <div class="work-row">
+      <span class="w-num">002</span>
+      <span class="w-name">ARCHIVE 02</span>
+      <span class="w-type">Spatial Design</span>
+      <span class="w-year">2025</span>
+    </div>
+    <div class="work-row">
+      <span class="w-num">003</span>
+      <span class="w-name">ITERA</span>
+      <span class="w-type">touchdesigner, python and claude code</span>
+      <span class="w-year">2025</span>
+    </div>
+    <div class="work-row">
+      <span class="w-num">004</span>
+      <span class="w-name">Photography</span>
+      <span class="w-type">Documentary</span>
+      <span class="w-year">Ongoing</span>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about-strip" id="about">
+    <div>
+      <div class="as-label">Studio</div>
+      <p class="as-body">
+       Samgeeth Shripharan is a final-year architecture student and freelance graphic designer, looking to start his career as a Part 1 Architectural
+       Assistant after graduation. 
+      </p>
+    </div>
+    <div>
+      <div class="as-label">Index</div>
+      <ul class="detail-list">
+        <li><span class="dl-key">Education</span><span class="dl-val">Leicester School of Architecture</span></li>
+        <li><span class="dl-key">Degree</span><span class="dl-val">Architecture BA</span></li>
+        <li><span class="dl-key">Location</span><span class="dl-val">London, United Kingdom</span></li>
+        <li><span class="dl-key">Available</span><span class="dl-val">ITERA</span></li>
+        <li><span class="dl-key">Next</span><span class="dl-val">ARCHIVE 04, July 2025</span></li>
+        <li>
+          <span class="dl-key">Contact</span>
+          <!-- UPDATE YOUR EMAIL HERE -->
+          <span class="dl-val"><a href="mailto:hello@shripharan.com">hello@shripharan.com</a></span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PHOTOS -->
+  <section class="photo-section" id="photos">
+    <div class="photo-header">
+      <span>Photography</span>
+      <span style="color:var(--ink-faint); font-size:9px;">Selected Frames</span>
+    </div>
+    <div class="photo-grid">
+      <!-- Drop your images in a /photos/ folder and update src paths -->
+      <div class="photo-cell">
+        <img src="/photos/photo-01.jpg" alt="01" onerror="this.style.display='none'" />
+        <span class="photo-num">001</span>
+      </div>
+      <div class="photo-cell">
+        <img src="/photos/photo-02.jpg" alt="02" onerror="this.style.display='none'" />
+        <span class="photo-num">002</span>
+      </div>
+      <div class="photo-cell">
+        <img src="/photos/photo-03.jpg" alt="03" onerror="this.style.display='none'" />
+        <span class="photo-num">003</span>
+      </div>
+      <div class="photo-cell">
+        <img src="/photos/photo-04.jpg" alt="04" onerror="this.style.display='none'" />
+        <span class="photo-num">004</span>
+      </div>
+      <div class="photo-cell">
+        <img src="/photos/photo-05.jpg" alt="05" onerror="this.style.display='none'" />
+        <span class="photo-num">005</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- FOOTER PANEL (dark) -->
+  <footer class="footer-panel" id="contact">
+    <div>
+      <div class="fp-col-title">Studio</div>
+      <div class="fp-name">Sangeeth Shripharan</div>
+    </div>
+
+    <div>
+      <div class="fp-col-title">Practice</div>
+      <ul class="service-list">
+        <li>Architecture</li>
+        <li>Spatial Design</li>
+        <li>Photography</li>
+        <li class="s-gap">Computer Vision</li>
+        <li>Hardware / DIY</li>
+        <li>Brand &amp; Identity</li>
+        <li class="s-gap">Press</li>
+        <li class="s-gap">shripharan.com</li>
+        <!-- UPDATE YEAR BELOW -->
+        <li>[Leicester] 2025</li>
+      </ul>
+    </div>
+
+    <div class="fp-nav">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#photos">Photography</a>
+      <a href="#contact">Index</a>
+    </div>
+  </footer>
+
+  <div class="footer-bottom">
+    <div class="fb-statement">
+      Explore the archive,<br>
+      the material record,<br>
+      &copy;2025 Sangeeth Shripharan
+    </div>
+    <div class="fb-copy">&copy;2025</div>
+  </div>
+
+</body>
+</html>

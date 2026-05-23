@@ -17,10 +17,7 @@
       --black: #0d0d0d;
     }
 
-    html {
-      scroll-behavior: smooth;
-      overflow-x: hidden;
-    }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
 
     body {
       background: var(--cream);
@@ -61,11 +58,7 @@
       color: var(--ink-mid);
     }
 
-    .tb-center {
-      text-align: center;
-      font-size: 9px;
-      color: var(--ink-mid);
-    }
+    .tb-center { text-align: center; font-size: 9px; color: var(--ink-mid); }
 
     .tb-right {
       display: flex;
@@ -136,8 +129,7 @@
       object-fit: cover;
       display: block;
       position: absolute;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
     }
 
     .hero-bottom {
@@ -151,36 +143,15 @@
       pointer-events: all;
     }
 
-    .hb-left {
-      font-size: 9px;
-      line-height: 1.8;
-      color: var(--ink-mid);
-      max-width: 200px;
-    }
-
-    .hb-center {
-      font-size: 9px;
-      line-height: 1.8;
-      color: var(--ink-mid);
-      text-align: center;
-    }
-
-    .hb-right {
-      display: flex;
-      justify-content: flex-end;
-      gap: 2.5rem;
-      font-size: 9px;
-      color: var(--ink);
-    }
+    .hb-left { font-size: 9px; line-height: 1.8; color: var(--ink-mid); max-width: 200px; }
+    .hb-center { font-size: 9px; line-height: 1.8; color: var(--ink-mid); text-align: center; }
+    .hb-right { display: flex; justify-content: flex-end; gap: 2.5rem; font-size: 9px; color: var(--ink); }
 
     /* ── DIVIDER ── */
     .divider { height: 1px; background: var(--ink); }
 
     /* ── WORK ── */
-    .work-section {
-      padding: 5rem 1.8rem;
-      background: var(--cream);
-    }
+    .work-section { padding: 5rem 1.8rem; background: var(--cream); }
 
     .work-header {
       display: flex;
@@ -239,10 +210,7 @@
       letter-spacing: 0.1em;
     }
 
-    .detail-list {
-      list-style: none;
-      border-top: 1px solid rgba(26,24,20,0.15);
-    }
+    .detail-list { list-style: none; border-top: 1px solid rgba(26,24,20,0.15); }
 
     .detail-list li {
       display: flex;
@@ -269,11 +237,7 @@
       margin-bottom: 3rem;
     }
 
-    .photo-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 3px;
-    }
+    .photo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; }
 
     .photo-cell {
       aspect-ratio: 3/4;
@@ -283,10 +247,7 @@
       cursor: crosshair;
     }
 
-    .photo-cell:first-child {
-      grid-column: span 2;
-      aspect-ratio: unset;
-    }
+    .photo-cell:first-child { grid-column: span 2; aspect-ratio: unset; }
 
     .photo-cell img {
       width: 100%; height: 100%;
@@ -318,13 +279,7 @@
       align-content: start;
     }
 
-    .fp-col-title {
-      font-size: 10px;
-      color: #666;
-      margin-bottom: 1.2rem;
-      letter-spacing: 0.14em;
-    }
-
+    .fp-col-title { font-size: 10px; color: #666; margin-bottom: 1.2rem; letter-spacing: 0.14em; }
     .fp-name { font-size: 11px; letter-spacing: 0.16em; color: var(--cream); }
     .service-list { list-style: none; }
 
@@ -363,68 +318,92 @@
         max-width: 100vw;
       }
 
-      .topbar {
-        grid-template-columns: 1fr 1fr;
-        padding: 1rem 1.2rem;
-      }
+      .topbar { grid-template-columns: 1fr 1fr; padding: 1rem 1.2rem; }
       .tb-center { display: none; }
 
+      /* Hero takes full screen, image sits in the middle,
+         arrows get their own row at the bottom */
       .hero {
-        padding: 5rem 0 8rem;
         min-height: 100svh;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 5rem 0 0;
+        gap: 0;
       }
 
-      .print-wrap { width: 100%; }
-      .print-img { aspect-ratio: 3/4; }
+      .print-wrap {
+        width: 100%;
+        padding: 0;
+      }
 
+      /* Portrait crop on mobile — contain not cover so nothing is chopped */
+      .print-img {
+        aspect-ratio: 3/4;
+        background: #e8e8e8;
+      }
+
+      .print-img img {
+        object-fit: contain;
+        background: #e8e8e8;
+      }
+
+      /* Arrow row sits below the image */
       .hero-back {
-        left: 0;
-        bottom: 4rem;
-        font-size: 12px;
-        padding: 20px 24px;
-        background: rgba(255,255,255,0.92);
-        border: 1px solid rgba(26,24,20,0.12);
+        position: static;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50%;
+        padding: 18px 0;
+        font-size: 11px;
         color: var(--ink);
+        border-top: 1px solid rgba(26,24,20,0.12);
+        border-right: 1px solid rgba(26,24,20,0.12);
+        background: var(--cream);
         pointer-events: all;
       }
 
       .hero-next {
-        right: 0;
-        bottom: 4rem;
-        font-size: 12px;
-        padding: 20px 24px;
-        background: rgba(255,255,255,0.92);
-        border: 1px solid rgba(26,24,20,0.12);
+        position: static;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50%;
+        padding: 18px 0;
+        font-size: 11px;
         color: var(--ink);
+        border-top: 1px solid rgba(26,24,20,0.12);
+        background: var(--cream);
+        pointer-events: all;
+      }
+
+      /* Put arrows side by side in a row */
+      .hero-arrow-row {
+        display: flex;
+        width: 100%;
         pointer-events: all;
       }
 
       .hero-bottom {
+        position: static;
         grid-template-columns: 1fr 1fr;
-        bottom: 1.2rem;
-        left: 1.2rem;
-        right: 1.2rem;
+        padding: 1rem 1.2rem;
+        width: 100%;
+        border-top: 1px solid rgba(26,24,20,0.08);
+        margin-bottom: 1rem;
       }
 
       .hb-center { display: none; }
       .hb-right { gap: 1.2rem; }
 
       .work-section { padding: 3rem 1.2rem; }
-      .work-row {
-        grid-template-columns: 30px 1fr;
-        gap: 1rem;
-        padding: 1rem 0;
-      }
+      .work-row { grid-template-columns: 30px 1fr; gap: 1rem; padding: 1rem 0; }
       .w-type { display: none; }
       .w-year { display: none; }
       .w-name { font-size: 10px; }
 
-      .about-strip {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-        padding: 3rem 1.2rem;
-      }
-
+      .about-strip { grid-template-columns: 1fr; gap: 2.5rem; padding: 3rem 1.2rem; }
       .detail-list li { flex-direction: column; gap: 4px; }
       .dl-val { text-align: left; }
 
@@ -433,19 +412,9 @@
       .photo-cell:first-child { grid-column: span 2; aspect-ratio: 16/9; }
       .photo-cell { aspect-ratio: 1; }
 
-      .footer-panel {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-        padding: 2.5rem 1.2rem;
-        min-height: auto;
-      }
+      .footer-panel { grid-template-columns: 1fr; gap: 2rem; padding: 2.5rem 1.2rem; min-height: auto; }
       .fp-nav { align-items: flex-start; }
-
-      .footer-bottom {
-        grid-template-columns: 1fr;
-        gap: 0.5rem;
-        padding: 1.2rem;
-      }
+      .footer-bottom { grid-template-columns: 1fr; gap: 0.5rem; padding: 1.2rem; }
       .fb-copy { text-align: left; }
     }
   </style>
@@ -466,6 +435,7 @@
   </header>
 
   <div class="hero">
+    <!-- Desktop arrows (hidden on mobile via CSS position:static trick) -->
     <span class="hero-back" onclick="changePhoto(-1)">Back</span>
     <span class="hero-next" onclick="changePhoto(1)">Next</span>
 
@@ -475,17 +445,20 @@
       </div>
     </div>
 
+    <!-- Mobile arrow row injected via JS below the image -->
+    <div class="hero-arrow-row" id="arrow-row" style="display:none;">
+      <span class="hero-back" onclick="changePhoto(-1)">← Back</span>
+      <span class="hero-next" onclick="changePhoto(1)">Next →</span>
+    </div>
+
     <div class="hero-bottom">
       <div class="hb-left">
-        Sangeeth Shripharan is a final year architecture student and designer<br>
-
-
-        <br>
+        Sangeeth Shripharan is a final year architecture student and designer<br><br>
         Currently seeking a Part 1 Architectural Assistant role
       </div>
       <div class="hb-center">
-        DIGITAL ARCHIVE,<br>
-        london, 2026
+        Digital Archive,<br>
+        London, 2026
       </div>
       <div class="hb-right">
         <a href="#work">Work</a>
@@ -532,9 +505,8 @@
     <div>
       <div class="as-label">Studio</div>
       <p class="as-body">
-       <strong>SANGEETH SHRIPHARAN</strong> is a designer and spatial thinker finishing a BA in Architecture. 
-       <br>
-       Currently seeking a <strong> Part 1 architectural assistant role.</strong>
+        <strong>Sangeeth Shripharan</strong> is a designer and spatial thinker finishing a BA in Architecture.<br><br>
+        Currently seeking a <strong>Part 1 Architectural Assistant</strong> role.
       </p>
     </div>
     <div>
@@ -555,7 +527,7 @@
 
   <section class="photo-section" id="photos">
     <div class="photo-header">
-      <span>SKETCHES</span>
+      <span>Sketches</span>
       <span style="color:var(--ink-faint); font-size:9px;">Selected Frames</span>
     </div>
     <div class="photo-grid">
@@ -606,7 +578,7 @@
     <div class="fp-nav">
       <a href="#work">Work</a>
       <a href="#about">About</a>
-      <a href="#photos">Photography</a>
+      <a href="#photos">Sketches</a>
       <a href="#contact">Index</a>
     </div>
   </footer>
@@ -641,10 +613,22 @@
       newImg.onload = () => { img.src = photos[current]; };
     }
 
+    // Show mobile arrow row on small screens
+    function checkMobile() {
+      const arrowRow = document.getElementById('arrow-row');
+      if (window.innerWidth <= 640) {
+        arrowRow.style.display = 'flex';
+      } else {
+        arrowRow.style.display = 'none';
+      }
+    }
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
     // Swipe support
     let touchStartX = 0;
     let touchStartY = 0;
-
     const heroEl = document.querySelector('.hero');
 
     heroEl.addEventListener('touchstart', e => {

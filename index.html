@@ -13,7 +13,7 @@
       --cream: #ffffff;
       --ink: #1a1814;
       --ink-mid: #555050;
-      --ink-faint: #999490;
+      --ink-faint: #ffffff;
       --black: #0d0d0d;
     }
 
@@ -113,12 +113,16 @@
       position: relative;
     }
 
-    .print-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
+.print-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.15s ease;
+  position: relative;
+  top: 0;
+  left: 0;
+}
 
     .print-placeholder {
       font-size: 9px;
@@ -422,13 +426,12 @@
 
   <!-- HERO -->
   <div class="hero">
-    <span class="hero-back">Back</span>
-    <span class="hero-next">Next</span>
+    <span class="hero-back" onclick="changePhoto(-1)">Back</span>
+    <span class="hero-next" onclick="changePhoto(1)">Next</span>
 
-    <div class="print-wrap">
+ <div class="print-wrap">
       <div class="print-img">
-         <img src="photos/photo.jpg" alt="Hero" />
-     </div>
+        <img id="hero-img" src="photos/photo.jpg" alt="Hero" />
       </div>
     </div>
 
@@ -489,7 +492,7 @@
     <div>
       <div class="as-label">Studio</div>
       <p class="as-body">
-       Samgeeth Shripharan is a final-year architecture student and freelance graphic designer, looking to start his career as a Part 1 Architectural
+       Sangeeth Shripharan is a final-year architecture student and freelance graphic designer, looking to start his career as a Part 1 Architectural
        Assistant after graduation. 
       </p>
     </div>
@@ -581,6 +584,31 @@
     </div>
     <div class="fb-copy">&copy;2026</div>
   </div>
+<script>
+  const photos = [
+    'photos/photo.jpg',
+    'photos/photo (2).png',
+    'photos/photo (3).png',
+    'photos/photo (4).png',
+    'photos/photo (5).png',
+    'photos/photo (6).png',
+    'photos/photo (7).png',
+    'photos/photo (8).png',
+    'photos/photo (9).png',
 
+  ];
+
+  let current = 0;
+
+  function changePhoto(dir) {
+    current = (current + dir + photos.length) % photos.length;
+    const img = document.getElementById('hero-img');
+    const newImg = new Image();
+    newImg.src = photos[current];
+    newImg.onload = () => {
+      img.src = photos[current];
+    };
+  }
+</script>
 </body>
 </html>

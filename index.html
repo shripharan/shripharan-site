@@ -85,6 +85,7 @@
       position: relative;
       padding: 6rem 1.8rem 5rem;
       overflow: hidden;
+      pointer-events: none;
     }
 
     .hero-back {
@@ -97,6 +98,7 @@
       user-select: none;
       padding: 8px;
       z-index: 10;
+      pointer-events: all;
     }
 
     .hero-next {
@@ -109,6 +111,7 @@
       user-select: none;
       padding: 8px;
       z-index: 10;
+      pointer-events: all;
     }
 
     .hero-back:hover, .hero-next:hover { color: var(--ink); }
@@ -116,6 +119,7 @@
     .print-wrap {
       width: min(580px, 88vw);
       position: relative;
+      pointer-events: all;
     }
 
     .print-img {
@@ -144,6 +148,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       align-items: end;
+      pointer-events: all;
     }
 
     .hb-left {
@@ -365,9 +370,8 @@
       .tb-center { display: none; }
 
       .hero {
-        padding: 5rem 1.2rem 8rem;
+        padding: 5rem 0 8rem;
         min-height: 100svh;
-        overflow: hidden;
       }
 
       .print-wrap { width: 100%; }
@@ -376,21 +380,23 @@
       .hero-back {
         left: 0;
         bottom: 4rem;
-        font-size: 11px;
-        padding: 16px 20px;
-        background: rgba(255,255,255,0.85);
+        font-size: 12px;
+        padding: 20px 24px;
+        background: rgba(255,255,255,0.92);
         border: 1px solid rgba(26,24,20,0.12);
         color: var(--ink);
+        pointer-events: all;
       }
 
       .hero-next {
         right: 0;
         bottom: 4rem;
-        font-size: 11px;
-        padding: 16px 20px;
-        background: rgba(255,255,255,0.85);
+        font-size: 12px;
+        padding: 20px 24px;
+        background: rgba(255,255,255,0.92);
         border: 1px solid rgba(26,24,20,0.12);
         color: var(--ink);
+        pointer-events: all;
       }
 
       .hero-bottom {
@@ -446,7 +452,6 @@
 </head>
 <body>
 
-  <!-- TOP BAR -->
   <header class="topbar">
     <div class="tb-left">
       <span>Sangeeth Shripharan</span>
@@ -460,7 +465,6 @@
     </nav>
   </header>
 
-  <!-- HERO -->
   <div class="hero">
     <span class="hero-back" onclick="changePhoto(-1)">Back</span>
     <span class="hero-next" onclick="changePhoto(1)">Next</span>
@@ -490,7 +494,6 @@
 
   <div class="divider"></div>
 
-  <!-- WORK -->
   <section class="work-section" id="work">
     <div class="work-header">
       <span class="work-title">Selected Work</span>
@@ -522,7 +525,6 @@
     </div>
   </section>
 
-  <!-- ABOUT -->
   <section class="about-strip" id="about">
     <div>
       <div class="as-label">Studio</div>
@@ -547,7 +549,6 @@
     </div>
   </section>
 
-  <!-- PHOTOS -->
   <section class="photo-section" id="photos">
     <div class="photo-header">
       <span>Photography</span>
@@ -579,7 +580,6 @@
 
   <div class="divider"></div>
 
-  <!-- FOOTER -->
   <footer class="footer-panel" id="contact">
     <div>
       <div class="fp-col-title">Studio</div>
@@ -638,26 +638,22 @@
       newImg.onload = () => { img.src = photos[current]; };
     }
 
-    // Touch swipe support for mobile
+    // Swipe support
     let touchStartX = 0;
     let touchStartY = 0;
 
-    document.addEventListener('touchstart', e => {
+    const heroEl = document.querySelector('.hero');
+
+    heroEl.addEventListener('touchstart', e => {
       touchStartX = e.touches[0].clientX;
       touchStartY = e.touches[0].clientY;
     }, { passive: true });
 
-    document.addEventListener('touchend', e => {
+    heroEl.addEventListener('touchend', e => {
       const dx = e.changedTouches[0].clientX - touchStartX;
       const dy = e.changedTouches[0].clientY - touchStartY;
-      // Only trigger if horizontal swipe is dominant and on the hero
-      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
-        const hero = document.querySelector('.hero');
-        const rect = hero.getBoundingClientRect();
-        const touchY = e.changedTouches[0].clientY;
-        if (touchY >= rect.top && touchY <= rect.bottom) {
-          changePhoto(dx < 0 ? 1 : -1);
-        }
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+        changePhoto(dx < 0 ? 1 : -1);
       }
     }, { passive: true });
   </script>

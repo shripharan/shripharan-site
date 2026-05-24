@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sangeeth Shripharan — Desktop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      font-family: 'IBM Plex Mono', monospace;
+      background: #ffffff;
+    }
+
+    .desktop {
+      width: 100vw;
+      height: 100vh;
+      background: #ffffff;
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    /* ── MENUBAR ── */
+    .menubar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 14px; height: 26px;
+      background: rgba(26,24,20,0.97);
+      position: relative; z-index: 200;
+    }
+
+    .menubar-left { display: flex; align-items: center; gap: 16px; font-size: 11px; color: rgba(255,255,255,0.85); letter-spacing: 0.04em; }
+    .menubar-item { cursor: pointer; padding: 0 4px; position: relative; }
+    .menubar-item:hover { opacity: 0.6; }
+    .menubar-right { font-size: 10px; color: rgba(255,255,255,0.5); letter-spacing: 0.06em; display: flex; align-items: center; gap: 1.5rem; }
+    .back-link { color: rgba(255,255,255,0.55); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; cursor: pointer; }
+    .back-link:hover { color: #fff; }
+
+    .dropdown {
+      position: absolute; top: 26px; left: 0;
+      background: #2a2825; border: 0.5px solid #444;
+      border-radius: 6px; min-width: 170px;
+      padding: 4px 0; display: none; z-index: 300;
+    }
+
+    .dropdown.open { display: block; }
+
+    .dropdown-item {
+      padding: 7px 14px; font-size: 10px; letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.85); cursor: pointer;
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    .dropdown-item:hover { background: rgba(255,255,255,0.08); }
+    .dropdown-item i { font-size: 13px; opacity: 0.6; }
+    .dropdown-sep { height: 1px; background: #444; margin: 3px 0; }
+
+    /* ── CANVAS ── */
+    .desktop-canvas {
+      position: absolute;
+      top: 26px; left: 0; right: 80px; bottom: 44px;
+    }
+
+    /* ── FILE ICONS ── */
+    .file-icon {
+      position: absolute;
+      display: flex; flex-direction: column; align-items: center; gap: 5px;
+      cursor: grab; width: 72px; padding: 6px;
+      border-radius: 6px; transition: background 0.15s;
+      z-index: 1;
+    }
+
+    .file-icon:hover { background: rgba(26,24,20,0.06); }
+    .file-icon.dragging { cursor: grabbing; opacity: 0.85; z-index: 99; background: rgba(26,24,20,0.08); }
+
+    .file-thumb {
+      width: 58px; height: 58px; border-radius: 8px;
+      overflow: hidden; border: 0.5px solid #e0ddd8;
+      background: #e8e6e1;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; pointer-events: none;
+    }
+
+    .file-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .file-thumb i { font-size: 24px; color: #bbb; }
+    .file-name { font-size: 9px; letter-spacing: 0.04em; color: #1a1814; text-align: center; line-height: 1.3; pointer-events: none; word-break: break-all; }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      position: absolute; top: 26px; right: 0; bottom: 44px;
+      width: 80px; display: flex; flex-direction: column;
+      align-items: center; padding: 1rem 0; gap: 1.2rem;
+      border-left: 0.5px solid #e0ddd8;
+      background: rgba(248,246,242,0.9);
+      z-index: 2;
+    }
+
+    .icon-wrap { display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; width: 64px; }
+    .icon-wrap:hover .icon-box { opacity: 0.7; }
+    .icon-wrap:active .icon-box { transform: scale(0.93); }
+
+    .icon-box {
+      width: 52px; height: 52px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      background: #1a1814; transition: opacity 0.15s, transform 0.1s;
+    }
+
+    .icon-box.archive-box { background: #3a3530; position: relative; }
+    .icon-box.archive-box::after { content: ''; position: absolute; top: -4px; left: 4px; right: 4px; height: 5px; background: #555; border-radius: 3px 3px 0 0; }
+    .icon-box i { font-size: 24px; color: #fff; }
+    .icon-label { font-size: 9px; color: #1a1814; letter-spacing: 0.05em; text-align: center; }
+
+    /* ── DOCK ── */
+    .dock {
+      position: absolute; bottom: 0; left: 0; right: 80px; height: 44px;
+      background: rgba(26,24,20,0.04); border-top: 0.5px solid #e0ddd8;
+      display: flex; align-items: center; padding: 0 1rem; gap: 8px; z-index: 5;
+    }
+
+    .dock-item {
+      display: flex; align-items: center; gap: 6px; padding: 4px 10px;
+      border: 0.5px solid #e0ddd8; border-radius: 6px; cursor: pointer;
+      font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: #555; background: #fff; transition: background 0.15s;
+    }
+
+    .dock-item:hover { background: #f0ede8; }
+    .dock-item i { font-size: 12px; color: #1a1814; }
+
+    /* ── QUICK LOOK ── */
+    .quicklook {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.88);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.2s ease; z-index: 150;
+    }
+
+    .quicklook.open { opacity: 1; pointer-events: all; }
+
+    .ql-inner {
+      max-width: 80%; max-height: 85%;
+      display: flex; flex-direction: column; align-items: center;
+    }
+
+    .ql-bar {
+      width: 100%; display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 12px; background: rgba(26,24,20,0.75); border-radius: 8px 8px 0 0;
+    }
+
+    .ql-filename { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+    .ql-close { background: none; border: none; cursor: pointer; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.6); display: flex; align-items: center; gap: 5px; padding: 0; font-family: 'IBM Plex Mono', monospace; }
+    .ql-close:hover { color: #fff; }
+
+    .ql-img { max-width: 100%; max-height: 65vh; display: block; border-radius: 0 0 4px 4px; }
+
+    .ql-nav { display: flex; align-items: center; gap: 1rem; margin-top: 12px; }
+    .ql-nav-btn { background: rgba(255,255,255,0.1); border: none; border-radius: 4px; padding: 6px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.7); cursor: pointer; transition: background 0.15s; }
+    .ql-nav-btn:hover { background: rgba(255,255,255,0.2); }
+    .ql-counter { font-size: 9px; color: rgba(255,255,255,0.4); letter-spacing: 0.1em; }
+
+    /* ── WINDOWS ── */
+    .window-overlay {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(26,24,20,0.3);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.2s ease; z-index: 10;
+    }
+
+    .window-overlay.open { opacity: 1; pointer-events: all; }
+
+    .window {
+      background: #f7f5f2;
+      width: min(580px, 90vw); max-height: 75vh;
+      border-radius: 10px; overflow: hidden;
+      display: flex; flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      transform: scale(0.95); transition: transform 0.2s ease, width 0.25s, max-height 0.25s;
+    }
+
+    .window-overlay.open .window { transform: scale(1); }
+    .window-overlay.maximised .window { width: calc(100vw - 100px); max-height: calc(100vh - 80px); border-radius: 6px; }
+
+    .titlebar {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 14px; background: #eeece8; border-bottom: 1px solid #dddbd6;
+      position: relative; flex-shrink: 0;
+    }
+
+    .dot { width: 12px; height: 12px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 7px; color: transparent; transition: color 0.15s; flex-shrink: 0; }
+    .dot:hover { color: rgba(0,0,0,0.5); }
+    .dot.red { background: #ff5f57; }
+    .dot.yellow { background: #ffbd2e; }
+    .dot.green { background: #28c840; }
+
+    .titlebar-name { position: absolute; left: 50%; transform: translateX(-50%); font-size: 10px; letter-spacing: 0.12em; color: #888; text-transform: uppercase; white-space: nowrap; }
+
+    .window-body { overflow-y: auto; padding: 1.5rem 2rem; flex: 1; }
+
+    /* CV styles inside window */
+    .cv-name { font-size: 16px; letter-spacing: 0.1em; color: #1a1814; margin-bottom: 2px; text-transform: uppercase; }
+    .cv-sub { font-size: 9px; letter-spacing: 0.18em; color: #aaa; margin-bottom: 1.5rem; text-transform: uppercase; }
+    .cv-section { margin-bottom: 1.4rem; }
+    .cv-section-label { font-size: 8px; letter-spacing: 0.22em; color: #bbb; text-transform: uppercase; margin-bottom: 0.6rem; border-bottom: 1px solid #e8e6e1; padding-bottom: 5px; }
+    .cv-row { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 0; border-bottom: 1px solid #e8e6e1; gap: 1rem; }
+    .cv-role { font-size: 10px; letter-spacing: 0.06em; color: #1a1814; text-transform: uppercase; }
+    .cv-year { font-size: 9px; color: #bbb; white-space: nowrap; }
+    .cv-bullets { list-style: none; margin-top: 4px; display: flex; flex-direction: column; gap: 3px; }
+    .cv-bullets li { font-size: 9px; color: #777; line-height: 1.8; font-weight: 300; text-transform: none; letter-spacing: 0.03em; padding-left: 10px; position: relative; }
+    .cv-bullets li::before { content: '—'; position: absolute; left: 0; color: #ccc; }
+
+    .dl-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 2rem; background: #eeece8; border-top: 1px solid #dddbd6; flex-shrink: 0; }
+    .dl-btn { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; padding: 6px 16px; border: 1px solid #1a1814; background: none; color: #1a1814; cursor: pointer; border-radius: 4px; transition: background 0.15s, color 0.15s; }
+    .dl-btn:hover { background: #1a1814; color: #fff; }
+    .dl-info { font-size: 9px; color: #aaa; letter-spacing: 0.1em; text-transform: uppercase; }
+
+    /* Archive */
+    .archive-toolbar { display: flex; align-items: center; gap: 8px; padding: 8px 14px; background: #eeece8; border-bottom: 1px solid #dddbd6; flex-shrink: 0; flex-wrap: wrap; }
+    .filter-btn { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border: 0.5px solid #ccc; border-radius: 4px; background: none; color: #888; cursor: pointer; transition: all 0.15s; }
+    .filter-btn.active, .filter-btn:hover { background: #1a1814; color: #fff; border-color: #1a1814; }
+    .archive-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 1rem; }
+    .archive-cell { background: #eee; border-radius: 6px; overflow: hidden; cursor: pointer; transition: opacity 0.2s; border: 0.5px solid #e0ddd8; }
+    .archive-cell:hover { opacity: 0.75; }
+    .archive-cell.hidden { display: none; }
+    .archive-thumb { width: 100%; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; background: #e8e6e1; font-size: 28px; color: #aaa; }
+    .archive-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .archive-meta { padding: 6px 8px; background: #f7f5f2; border-top: 0.5px solid #e0ddd8; }
+    .archive-filename { font-size: 8px; letter-spacing: 0.08em; color: #555; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .archive-filetype { font-size: 7px; color: #bbb; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 1px; }
+  </style>
+</head>
+<body>
+
+<div class="desktop" id="desktop" onclick="closeAllDropdowns(event)">
+
+  <!-- MENUBAR -->
+  <div class="menubar">
+    <div class="menubar-left">
+      <span>&#63743;</span>
+      <div class="menubar-item" onclick="toggleDropdown(event,'dd-file')">
+        File
+        <div class="dropdown" id="dd-file">
+          <div class="dropdown-item" onclick="openWindow('archive')"><i class="ti ti-archive"></i>Open Archive</div>
+          <div class="dropdown-item" onclick="openWindow('cv')"><i class="ti ti-file-text"></i>Open CV</div>
+          <div class="dropdown-item" onclick="openWindow('work')"><i class="ti ti-folder"></i>Open Work</div>
+          <div class="dropdown-sep"></div>
+          <div class="dropdown-item" onclick="window.location='cv.html'"><i class="ti ti-external-link"></i>View Full CV</div>
+        </div>
+      </div>
+      <div class="menubar-item" onclick="toggleDropdown(event,'dd-edit')">
+        Edit
+        <div class="dropdown" id="dd-edit">
+          <div class="dropdown-item" onclick="autoArrange()"><i class="ti ti-layout-grid"></i>Auto Arrange</div>
+          <div class="dropdown-item" onclick="clearSelection()"><i class="ti ti-x"></i>Deselect All</div>
+        </div>
+      </div>
+      <div class="menubar-item" onclick="toggleDropdown(event,'dd-view')">
+        View
+        <div class="dropdown" id="dd-view">
+          <div class="dropdown-item" onclick="autoArrange()"><i class="ti ti-layout-grid"></i>Clean Up</div>
+        </div>
+      </div>
+    </div>
+    <div class="menubar-right">
+      <a class="back-link" href="../index.html">← Back to Site</a>
+      <span>shripharan.com · 2026</span>
+    </div>
+  </div>
+
+  <!-- DESKTOP CANVAS — draggable files -->
+  <div class="desktop-canvas" id="canvas"></div>
+
+  <!-- SIDEBAR ICONS -->
+  <div class="sidebar">
+    <div class="icon-wrap" onclick="openWindow('cv')">
+      <div class="icon-box"><i class="ti ti-file-text"></i></div>
+      <span class="icon-label">CV.pdf</span>
+    </div>
+    <div class="icon-wrap" onclick="openWindow('work')">
+      <div class="icon-box"><i class="ti ti-folder"></i></div>
+      <span class="icon-label">Work</span>
+    </div>
+    <div class="icon-wrap" onclick="openWindow('contact')">
+      <div class="icon-box"><i class="ti ti-mail"></i></div>
+      <span class="icon-label">Contact</span>
+    </div>
+    <div class="icon-wrap" onclick="openWindow('archive')">
+      <div class="icon-box archive-box"><i class="ti ti-archive"></i></div>
+      <span class="icon-label">Archive</span>
+    </div>
+  </div>
+
+  <!-- DOCK -->
+  <div class="dock" id="dock"></div>
+
+<!-- QUICK LOOK -->
+<div class="quicklook" id="quicklook" onclick="if(event.target===this)closeQLBtn()">
+  <div class="ql-inner" onclick="event.stopPropagation()">
+    <div class="ql-bar">
+      <span class="ql-filename" id="ql-name"></span>
+
+      <button class="ql-close" onclick="closeQLBtn()">
+        Close <i class="ti ti-x"></i>
+      </button>
+    </div>
+
+    <!-- IMAGE -->
+    <img class="ql-img" id="ql-img" src="" alt="Preview" />
+
+    <!-- VIDEO -->
+    <video
+      class="ql-img"
+      id="ql-video"
+      controls
+      autoplay
+      playsinline
+      style="display:none;"
+    >
+      <source id="ql-video-source" src="" type="video/mp4">
+    </video>
+
+    <div class="ql-nav">
+      <button class="ql-nav-btn" onclick="qlNav(-1)">
+        &#8592; Prev
+      </button>
+
+      <span class="ql-counter" id="ql-counter"></span>
+
+      <button class="ql-nav-btn" onclick="qlNav(1)">
+        Next &#8594;
+      </button>
+    </div>
+  </div>
+</div>
+
+  <!-- CV WINDOW -->
+  <div class="window-overlay" id="win-cv" onclick="handleOverlayClick(event,'cv')">
+    <div class="window" id="winbox-cv">
+      <div class="titlebar">
+        <div class="dot red" onclick="closeWindow('cv')">&#10005;</div>
+        <div class="dot yellow" onclick="minimiseWindow('cv')">&#8211;</div>
+        <div class="dot green" onclick="toggleMaximise('cv')">&#43;</div>
+        <span class="titlebar-name">CV.pdf — Sangeeth Shripharan</span>
+      </div>
+      <div class="window-body">
+        <div class="cv-name">Sangeeth Shripharan</div>
+        <div class="cv-sub">Architecture BA · Designer · London</div>
+
+        <div class="cv-section">
+          <div class="cv-section-label">Experience</div>
+          <div class="cv-row"><span class="cv-role">NHS Medical Interpreter</span><span class="cv-year">2025–Present</span></div>
+          <div class="cv-row"><span class="cv-role">Material Researcher — DMU Frontrunner</span><span class="cv-year">Sep 2024–Mar 2025</span></div>
+          <div class="cv-row"><span class="cv-role">Freelance Graphic Designer</span><span class="cv-year">2023–Present</span></div>
+          <div class="cv-row"><span class="cv-role">Student Ambassador — DMU</span><span class="cv-year">Dec 2023–Present</span></div>
+          <div class="cv-row"><span class="cv-role">BIM Conference Volunteer</span><span class="cv-year">2023 + 2024</span></div>
+          <div class="cv-row"><span class="cv-role">Store Assistant, Newsagent</span><span class="cv-year">Apr 2019–2024</span></div>
+        </div>
+
+        <div class="cv-section">
+          <div class="cv-section-label">Education</div>
+          <div class="cv-row"><span class="cv-role">Architecture BA — De Montfort University</span><span class="cv-year">2023–2026</span></div>
+          <div class="cv-row"><span class="cv-role">A Levels — Kingsbury High School</span><span class="cv-year">AAB + Distinction*</span></div>
+          <div class="cv-row"><span class="cv-role">BTEC Level 3 IT — Kingsbury High School</span><span class="cv-year">Distinction*</span></div>
+        </div>
+
+        <div class="cv-section">
+          <div class="cv-section-label">Software</div>
+          <div class="cv-row"><span class="cv-role">Revit · AutoCAD · SketchUp · Rhino</span><span class="cv-year">BIM / CAD</span></div>
+          <div class="cv-row"><span class="cv-role">Photoshop · Illustrator · InDesign</span><span class="cv-year">Adobe</span></div>
+          <div class="cv-row"><span class="cv-role">Python · HTML · CSS · TouchDesigner</span><span class="cv-year">Code</span></div>
+        </div>
+      </div>
+      <div class="dl-bar">
+        <span class="dl-info">CV_Shripharan_2026.pdf</span>
+        <button class="dl-btn" onclick="window.location='cv.html'">View Full CV →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- WORK WINDOW -->
+  <div class="window-overlay" id="win-work" onclick="handleOverlayClick(event,'work')">
+    <div class="window" id="winbox-work">
+      <div class="titlebar">
+        <div class="dot red" onclick="closeWindow('work')">&#10005;</div>
+        <div class="dot yellow" onclick="minimiseWindow('work')">&#8211;</div>
+        <div class="dot green" onclick="toggleMaximise('work')">&#43;</div>
+        <span class="titlebar-name">Work — Selected Projects</span>
+      </div>
+      <div class="window-body">
+        <div class="cv-name">Selected Work</div>
+        <div class="cv-sub">2022 — 2026</div>
+        <div class="cv-section">
+          <div class="cv-section-label">Architecture</div>
+          <div class="cv-row">
+            <span class="cv-role">Archive 01 — Textile Archive, River Soar</span><span class="cv-year">2025</span>
+          </div>
+          <ul class="cv-bullets"><li>Single-storey building along the River Soar exploring cyclical material flows.</li></ul>
+          <div class="cv-row">
+            <span class="cv-role">Archive 02 — The Material Record</span><span class="cv-year">2025</span>
+          </div>
+          <ul class="cv-bullets"><li>Spatial design project around material thinking and regenerative cycles.</li></ul>
+        </div>
+        <div class="cv-section">
+          <div class="cv-section-label">Digital</div>
+          <div class="cv-row"><span class="cv-role">Itera — TouchDesigner + Python + Claude</span><span class="cv-year">2026</span></div>
+          <div class="cv-row"><span class="cv-role">Corner Shop Automation — YOLOv8</span><span class="cv-year">2026</span></div>
+        </div>
+        <div class="cv-section">
+          <div class="cv-section-label">Photography</div>
+          <div class="cv-row"><span class="cv-role">Documentary — Travel &amp; Architecture</span><span class="cv-year">Ongoing</span></div>
+        </div>
+      </div>
+      <div class="dl-bar">
+        <span class="dl-info">5 projects</span>
+        <button class="dl-btn" onclick="window.location='index.html#work'">View on Site →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT WINDOW -->
+  <div class="window-overlay" id="win-contact" onclick="handleOverlayClick(event,'contact')">
+    <div class="window" id="winbox-contact">
+      <div class="titlebar">
+        <div class="dot red" onclick="closeWindow('contact')">&#10005;</div>
+        <div class="dot yellow" onclick="minimiseWindow('contact')">&#8211;</div>
+        <div class="dot green" onclick="toggleMaximise('contact')">&#43;</div>
+        <span class="titlebar-name">Contact</span>
+      </div>
+      <div class="window-body">
+        <div class="cv-name">Get in touch</div>
+        <div class="cv-sub">Always open to interesting work</div>
+        <div class="cv-section">
+          <div class="cv-section-label">Direct</div>
+          <div class="cv-row"><span class="cv-role">sangeethshripharan@gmail.com</span><span class="cv-year">Email</span></div>
+          <div class="cv-row"><span class="cv-role">(+44) 07511 203231</span><span class="cv-year">Phone</span></div>
+          <div class="cv-row"><span class="cv-role">shripharan.com</span><span class="cv-year">Web</span></div>
+          <div class="cv-row"><span class="cv-role">linkedin.com/in/shripharan</span><span class="cv-year">LinkedIn</span></div>
+        </div>
+        <div class="cv-section">
+          <div class="cv-section-label">Location</div>
+          <div class="cv-row"><span class="cv-role">London, United Kingdom</span><span class="cv-year">Based</span></div>
+          <div class="cv-row"><span class="cv-role">Available from Summer 2026</span><span class="cv-year">Status</span></div>
+        </div>
+      </div>
+      <div class="dl-bar">
+        <span class="dl-info">Open to Part 1 roles</span>
+        <button class="dl-btn" onclick="window.location='mailto:sangeethshripharan@gmail.com'">Send Email →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARCHIVE WINDOW -->
+  <div class="window-overlay" id="win-archive" onclick="handleOverlayClick(event,'archive')">
+    <div class="window" id="winbox-archive">
+      <div class="titlebar">
+        <div class="dot red" onclick="closeWindow('archive')">&#10005;</div>
+        <div class="dot yellow" onclick="minimiseWindow('archive')">&#8211;</div>
+        <div class="dot green" onclick="toggleMaximise('archive')">&#43;</div>
+        <span class="titlebar-name">Archive — All Files</span>
+      </div>
+      <div class="archive-toolbar">
+        <button class="filter-btn active" onclick="filterArchive('all',this)">All</button>
+        <button class="filter-btn" onclick="filterArchive('photo',this)">Photos</button>
+        <button class="filter-btn" onclick="filterArchive('sketch',this)">Sketches</button>
+        <button class="filter-btn" onclick="filterArchive('pdf',this)">PDFs</button>
+        <button class="filter-btn" onclick="filterArchive('video',this)">Video</button>
+      </div>
+      <div class="window-body" style="padding:0; overflow-y:auto;">
+        <div class="archive-grid" id="archive-grid">
+          <!-- ─────────────────────────────────────────────────────
+               TO ADD FILES TO THE ARCHIVE:
+               Copy one block below and update:
+               1. data-type: photo / sketch / pdf / video
+               2. The <img> src or keep the icon placeholder
+               3. archive-filename text
+               4. archive-filetype text
+          ───────────────────────────────────────────────────── -->
+          <div class="archive-cell" data-type="sketch">
+            <div class="archive-thumb"><img src="photos/photo.jpg" alt="" onerror="this.style.display='none'" /><i class="ti ti-pencil"></i></div>
+            <div class="archive-meta"><div class="archive-filename">Sketch_01.jpg</div><div class="archive-filetype">Sketch · 2026</div></div>
+          </div>
+          <div class="archive-cell" data-type="sketch">
+            <div class="archive-thumb"><img src="photos/photo (2).png" alt="" onerror="this.style.display='none'" /><i class="ti ti-pencil"></i></div>
+            <div class="archive-meta"><div class="archive-filename">Sketch_02.png</div><div class="archive-filetype">Sketch · 2026</div></div>
+          </div>
+          <div class="archive-cell" data-type="sketch">
+            <div class="archive-thumb"><img src="photos/photo (3).png" alt="" onerror="this.style.display='none'" /><i class="ti ti-pencil"></i></div>
+            <div class="archive-meta"><div class="archive-filename">Sketch_03.png</div><div class="archive-filetype">Sketch · 2026</div></div>
+          </div>
+          <div class="archive-cell" data-type="photo">
+            <div class="archive-thumb"><img src="photos/photo (5).png" alt="" onerror="this.style.display='none'" /><i class="ti ti-photo"></i></div>
+            <div class="archive-meta"><div class="archive-filename">Photo_01.png</div><div class="archive-filetype">Photo · 2026</div></div>
+          </div>
+          <div class="archive-cell" data-type="photo">
+            <div class="archive-thumb"><img src="photos/photo (6).png" alt="" onerror="this.style.display='none'" /><i class="ti ti-photo"></i></div>
+            <div class="archive-meta"><div class="archive-filename">Photo_02.png</div><div class="archive-filetype">Photo · 2026</div></div>
+          </div>
+          <div class="archive-cell" data-type="photo">
+            <div class="archive-thumb"><img src="photos/photo (7).png" alt="" onerror="this.style.display='none'" /><i class="ti ti-photo"></i></div>
+            <div class="archive-meta"><div class="archive-filename">Photo_03.png</div><div class="archive-filetype">Photo · 2026</div></div>
+          </div>
+          <div class="archive-cell" data-type="pdf">
+            <div class="archive-thumb"><i class="ti ti-file-text"></i></div>
+            <div class="archive-meta"><div class="archive-filename">CV_2026.pdf</div><div class="archive-filetype">PDF · 2026</div></div>
+          </div>
+          <div class="archive-cell" data-type="video">
+            <div class="archive-thumb"><i class="ti ti-video"></i></div>
+            <div class="archive-meta"><div class="archive-filename">PRESENTATION_DAY.mp4</div><div class="archive-filetype">Video · 2026</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="dl-bar">
+        <span class="dl-info" id="archive-count">8 files</span>
+        <button class="dl-btn">Download All</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  /* ─────────────────────────────────────────────────────────────
+     TO ADD FILES TO THE DESKTOP:
+     Add an entry to this array:
+     { name: 'MyFile.jpg', src: 'photos/myfile.jpg', icon: 'ti-pencil' }
+     Icons: ti-pencil (sketch), ti-photo (photo), ti-file-text (pdf), ti-video (video)
+  ───────────────────────────────────────────────────────────── */
+  const desktopFiles = [
+    { name: 'Sketch_01.jpg',   src: 'photos/photo.jpg',      icon: 'ti-pencil' },
+    { name: 'Sketch_02.png',   src: 'photos/photo (2).png',  icon: 'ti-pencil' },
+    { name: 'Sketch_03.png',   src: 'photos/photo (3).png',  icon: 'ti-pencil' },
+    { name: 'Photo_01.png',    src: 'photos/photo (5).png',  icon: 'ti-photo'  },
+    { name: 'Photo_02.png',    src: 'photos/photo (6).png',  icon: 'ti-photo'  },
+    { name: 'Photo_03.png',    src: 'photos/photo (7).png',  icon: 'ti-photo'  },
+    { name: 'ARCHIVE 01.png',  src: 'photos/photo (9).png',  icon: 'ti-pencil' },
+    { name: 'ID - CARD.png',  src: 'photos/id-card.png',  icon: 'ti-pencil' },
+    { name: 'drawing.png',  src: 'photos/drawing.png',  icon: 'ti-pencil' },
+    { name: 'PRESENTATION_DAY.mp4',  src: 'videos/PRESENTATION_DAY.mp4',  icon: 'ti-video' },
+    { name: 'ARCHITECTURE.mov',  src: 'videos/architecture.mov',  icon: 'ti-video' },
+    { name: 'INTERVIEW W/ SHIRISH.mov',  src: 'videos/shirish.mov',  icon: 'ti-video' },
+    { name: 'PROMO VIDEO.mov',  src: 'videos/tiktok.mp4',  icon: 'ti-video' },
+    { name: 'LIVESTREAM.mov',  src: 'videos/livestream.mov',  icon: 'ti-pencil' },
+    { name: 'MOONWALKING.mov',  src: 'videos/moonwalking.mp4',  icon: 'ti-video' },
+    { name: 'FILMING.mov',  src: 'videos/filming.mov',  icon: 'ti-video' },
+  ];
+
+  const winLabels = { cv:'CV.pdf', work:'Work', contact:'Contact', archive:'Archive' };
+  const winIcons  = { cv:'ti-file-text', work:'ti-folder', contact:'ti-mail', archive:'ti-archive' };
+  const minimised = {}, maximised = {};
+  let qlCurrent = 0;
+  let dragEl = null, dragOffX = 0, dragOffY = 0, clickTimer = null;
+
+  /* ── BUILD DESKTOP ── */
+  function buildDesktop() {
+    const canvas = document.getElementById('canvas');
+    const cols = 5, colW = 84, rowH = 96, startX = 20, startY = 20;
+    desktopFiles.forEach((f, i) => {
+      const el = document.createElement('div');
+      el.className = 'file-icon';
+      el.style.left = (startX + (i % cols) * colW) + 'px';
+      el.style.top  = (startY + Math.floor(i / cols) * rowH) + 'px';
+      el.dataset.idx = i;
+      el.innerHTML = `<div class="file-thumb"><img src="${f.src}" alt="" onerror="this.style.display='none'" /><i class="ti ${f.icon}"></i></div><span class="file-name">${f.name}</span>`;
+      el.addEventListener('mousedown', startDrag);
+      el.addEventListener('touchstart', startDragTouch, { passive: false });
+      canvas.appendChild(el);
+    });
+  }
+
+  /* ── DRAG ── */
+  function startDrag(e) {
+    e.preventDefault();
+    const el = e.currentTarget;
+    const rect = el.getBoundingClientRect();
+    dragOffX = e.clientX - rect.left;
+    dragOffY = e.clientY - rect.top;
+    dragEl = el; el.classList.add('dragging'); el.style.zIndex = 99;
+    clickTimer = setTimeout(() => { clickTimer = null; }, 220);
+    document.addEventListener('mousemove', onDrag);
+    document.addEventListener('mouseup', endDrag);
+  }
+
+  function startDragTouch(e) {
+    const t = e.touches[0], el = e.currentTarget;
+    const rect = el.getBoundingClientRect();
+    dragOffX = t.clientX - rect.left; dragOffY = t.clientY - rect.top;
+    dragEl = el; el.classList.add('dragging');
+    clickTimer = setTimeout(() => { clickTimer = null; }, 220);
+    document.addEventListener('touchmove', onDragTouch, { passive: false });
+    document.addEventListener('touchend', endDragTouch);
+  }
+
+  function onDrag(e) {
+    if (!dragEl) return;
+    const cr = document.getElementById('canvas').getBoundingClientRect();
+    dragEl.style.left = Math.max(0, Math.min(e.clientX - cr.left - dragOffX, cr.width - 72)) + 'px';
+    dragEl.style.top  = Math.max(0, Math.min(e.clientY - cr.top  - dragOffY, cr.height - 96)) + 'px';
+  }
+
+  function onDragTouch(e) {
+    e.preventDefault();
+    if (!dragEl) return;
+    const t = e.touches[0], cr = document.getElementById('canvas').getBoundingClientRect();
+    dragEl.style.left = Math.max(0, Math.min(t.clientX - cr.left - dragOffX, cr.width - 72)) + 'px';
+    dragEl.style.top  = Math.max(0, Math.min(t.clientY - cr.top  - dragOffY, cr.height - 96)) + 'px';
+  }
+
+  function endDrag() {
+    if (!dragEl) return;
+    dragEl.classList.remove('dragging'); dragEl.style.zIndex = 1;
+    if (clickTimer !== null) quickLook(parseInt(dragEl.dataset.idx));
+    dragEl = null;
+    document.removeEventListener('mousemove', onDrag);
+    document.removeEventListener('mouseup', endDrag);
+  }
+
+  function endDragTouch() {
+    if (!dragEl) return;
+    dragEl.classList.remove('dragging'); dragEl.style.zIndex = 1;
+    if (clickTimer !== null) quickLook(parseInt(dragEl.dataset.idx));
+    dragEl = null;
+    document.removeEventListener('touchmove', onDragTouch);
+    document.removeEventListener('touchend', endDragTouch);
+  }
+
+  function autoArrange() {
+    closeAllDropdowns();
+    const icons = document.querySelectorAll('.file-icon');
+    const cols = 5, colW = 84, rowH = 96, startX = 20, startY = 20;
+    icons.forEach((el, i) => {
+      el.style.transition = 'left 0.3s ease, top 0.3s ease';
+      el.style.left = (startX + (i % cols) * colW) + 'px';
+      el.style.top  = (startY + Math.floor(i / cols) * rowH) + 'px';
+      setTimeout(() => el.style.transition = '', 350);
+    });
+  }
+
+  function clearSelection() { document.querySelectorAll('.file-icon').forEach(el => el.classList.remove('selected')); closeAllDropdowns(); }
+
+  /* ── QUICK LOOK ── */
+  function quickLook(idx) { qlCurrent = idx; updateQL(); document.getElementById('quicklook').classList.add('open'); }
+
+function updateQL() {
+  const f = desktopFiles[qlCurrent];
+
+  document.getElementById('ql-name').textContent = f.name;
+
+  document.getElementById('ql-counter').textContent =
+    (qlCurrent + 1) + ' / ' + desktopFiles.length;
+
+  const img = document.getElementById('ql-img');
+  const video = document.getElementById('ql-video');
+  const videoSource = document.getElementById('ql-video-source');
+
+  const isVideo =
+    f.src.endsWith('.mp4') ||
+    f.src.endsWith('.webm') ||
+    f.src.endsWith('.mov');
+
+  if (isVideo) {
+
+    img.style.display = 'none';
+
+    video.style.display = 'block';
+
+    videoSource.src = f.src;
+
+    video.load();
+
+    video.play();
+
+  } else {
+
+    video.pause();
+
+    video.style.display = 'none';
+
+    img.style.display = 'block';
+
+    img.src = f.src;
+  }
+}
+
+  function qlNav(dir) { qlCurrent = (qlCurrent + dir + desktopFiles.length) % desktopFiles.length; updateQL(); }
+  function closeQLBtn() { document.getElementById('quicklook').classList.remove('open'); }
+
+  /* ── WINDOWS ── */
+  function openWindow(id) {
+    closeAllDropdowns();
+    if (minimised[id]) restoreWindow(id);
+    else { document.getElementById('win-'+id).classList.add('open'); maximised[id] = false; }
+  }
+
+  function closeWindow(id) { document.getElementById('win-'+id).classList.remove('open','maximised'); minimised[id]=false; maximised[id]=false; updateDock(); }
+  function minimiseWindow(id) { document.getElementById('win-'+id).classList.remove('open','maximised'); minimised[id]=true; maximised[id]=false; updateDock(); }
+  function restoreWindow(id) { minimised[id]=false; document.getElementById('win-'+id).classList.add('open'); updateDock(); }
+  function toggleMaximise(id) { const o=document.getElementById('win-'+id); maximised[id]=!maximised[id]; o.classList.toggle('maximised',maximised[id]); }
+  function handleOverlayClick(e,id) { if(e.target===document.getElementById('win-'+id)) minimiseWindow(id); }
+
+  function updateDock() {
+    const dock = document.getElementById('dock');
+    dock.innerHTML = '';
+    Object.keys(minimised).forEach(id => {
+      if (minimised[id]) {
+        const el = document.createElement('div');
+        el.className = 'dock-item';
+        el.innerHTML = `<i class="ti ${winIcons[id]}"></i>${winLabels[id]}`;
+        el.onclick = () => restoreWindow(id);
+        dock.appendChild(el);
+      }
+    });
+  }
+
+  /* ── ARCHIVE FILTER ── */
+  function filterArchive(type, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    let count = 0;
+    document.querySelectorAll('.archive-cell').forEach(c => {
+      const show = type === 'all' || c.dataset.type === type;
+      c.classList.toggle('hidden', !show);
+      if (show) count++;
+    });
+    document.getElementById('archive-count').textContent = count + ' file' + (count !== 1 ? 's' : '');
+  }
+
+  /* ── DROPDOWNS ── */
+  function toggleDropdown(e, id) {
+    e.stopPropagation();
+    const dd = document.getElementById(id);
+    const wasOpen = dd.classList.contains('open');
+    closeAllDropdowns();
+    if (!wasOpen) dd.classList.add('open');
+  }
+
+  function closeAllDropdowns(e) { document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open')); }
+
+  buildDesktop();
+</script>
+</body>
+</html>

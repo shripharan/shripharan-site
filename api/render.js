@@ -7,8 +7,8 @@ export default async function handler(req, res) {
 
   const { prompt, image, guidance_scale, model } = req.body;
 
- const response = await fetch(
-  `/api/render`,
+  const response = await fetch(
+    `https://api-inference.huggingface.co/models/${model}`,
     {
       method: 'POST',
       headers: {

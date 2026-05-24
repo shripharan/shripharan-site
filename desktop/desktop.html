@@ -35,10 +35,10 @@
     }
 
     .menubar-left { display: flex; align-items: center; gap: 16px; font-size: 11px; color: rgba(255,255,255,0.85); letter-spacing: 0.04em; }
-    .menubar-item { cursor: pointer; padding: 0 4px; position: relative; }
+    .menubar-item { cursor: crosshair; padding: 0 4px; position: relative; }
     .menubar-item:hover { opacity: 0.6; }
     .menubar-right { font-size: 10px; color: rgba(255,255,255,0.5); letter-spacing: 0.06em; display: flex; align-items: center; gap: 1.5rem; }
-    .back-link { color: rgba(255,255,255,0.55); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; cursor: pointer; }
+    .back-link { color: rgba(255,255,255,0.55); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; cursor: crosshair; }
     .back-link:hover { color: #fff; }
 
     .dropdown {
@@ -52,7 +52,7 @@
 
     .dropdown-item {
       padding: 7px 14px; font-size: 10px; letter-spacing: 0.1em;
-      color: rgba(255,255,255,0.85); cursor: pointer;
+      color: rgba(255,255,255,0.85); cursor: crosshair;
       display: flex; align-items: center; gap: 8px;
     }
 
@@ -418,7 +418,7 @@
       </div>
       <div class="dl-bar">
         <span class="dl-info">5 projects</span>
-        <button class="dl-btn" onclick="window.location='index.html#work'">View on Site →</button>
+        <button class="dl-btn" onclick="window.location='C:\Users\sange\OneDrive\Desktop\shripharan\index.htmlk'">View on Site →</button>
       </div>
     </div>
   </div>
@@ -527,23 +527,26 @@
      { name: 'MyFile.jpg', src: 'photos/myfile.jpg', icon: 'ti-pencil' }
      Icons: ti-pencil (sketch), ti-photo (photo), ti-file-text (pdf), ti-video (video)
   ───────────────────────────────────────────────────────────── */
-  const desktopFiles = [
-    { name: 'Sketch_01.jpg',   src: 'photos/photo.jpg',      icon: 'ti-pencil' },
-    { name: 'Sketch_02.png',   src: 'photos/photo (2).png',  icon: 'ti-pencil' },
-    { name: 'Sketch_03.png',   src: 'photos/photo (3).png',  icon: 'ti-pencil' },
-    { name: 'Photo_01.png',    src: 'photos/photo (5).png',  icon: 'ti-photo'  },
-    { name: 'Photo_02.png',    src: 'photos/photo (6).png',  icon: 'ti-photo'  },
-    { name: 'Photo_03.png',    src: 'photos/photo (7).png',  icon: 'ti-photo'  },
-    { name: 'ARCHIVE 01.png',  src: 'photos/photo (9).png',  icon: 'ti-pencil' },
-    { name: 'ID - CARD.png',  src: 'photos/id-card.png',  icon: 'ti-pencil' },
-    { name: 'drawing.png',  src: 'photos/drawing.png',  icon: 'ti-pencil' },
-    { name: 'ARCHITECTURE.mov',  src: 'videos/architecture.mov',  icon: 'ti-video' },
-    { name: 'INTERVIEW W/ SHIRISH.mov',  src: 'videos/shirish.mov',  icon: 'ti-video' },
-    { name: 'PROMO VIDEO.mov',  src: 'videos/tiktok.mp4',  icon: 'ti-video' },
-    { name: 'LIVESTREAM.mov',  src: 'videos/livestream.mov',  icon: 'ti-pencil' },
-    { name: 'MOONWALKING.mov',  src: 'videos/moonwalking.mp4',  icon: 'ti-video' },
-    { name: 'FILMING.mov',  src: 'videos/filming.mov',  icon: 'ti-video' },
-  ];
+ const desktopFiles = [
+  { name: 'Sketch_01.jpg',          src: 'photos/photo.jpg',       icon: 'ti-pencil', type: 'image' },
+  { name: 'Sketch_02.png',          src: 'photos/photo (2).png',   icon: 'ti-pencil', type: 'image' },
+  { name: 'Sketch_03.png',          src: 'photos/photo (3).png',   icon: 'ti-pencil', type: 'image' },
+  { name: 'Photo_01.png',           src: 'photos/photo (5).png',   icon: 'ti-photo',  type: 'image' },
+  { name: 'Photo_02.png',           src: 'photos/photo (6).png',   icon: 'ti-photo',  type: 'image' },
+  { name: 'Photo_03.png',           src: 'photos/photo (7).png',   icon: 'ti-photo',  type: 'image' },
+  { name: 'ARCHIVE 01.png',         src: 'photos/photo (9).png',   icon: 'ti-pencil', type: 'image' },
+  { name: 'ID - CARD.png',          src: 'photos/id-card.png',     icon: 'ti-pencil', type: 'image' },
+  { name: 'drawing.png',            src: 'photos/drawing.png',     icon: 'ti-pencil', type: 'image' },
+  { name: 'ARCHITECTURE.mov',       src: 'videos/architecture.mov',icon: 'ti-video',  type: 'video' },
+  { name: 'INTERVIEW W/ SHIRISH',   src: 'videos/shirish.mov',     icon: 'ti-video',  type: 'video' },
+  { name: 'PROMO VIDEO',            src: 'videos/tiktok.mp4',      icon: 'ti-video',  type: 'video' },
+  { name: 'LIVESTREAM',             src: 'videos/livestream.mov',  icon: 'ti-video',  type: 'video' },
+  { name: 'MOONWALKING',            src: 'videos/moonwalking.mp4', icon: 'ti-video',  type: 'video' },
+  { name: 'FILMING',                src: 'videos/filming.mov',     icon: 'ti-video',  type: 'video' },
+  { name: 'ITERA 2',                src: 'videos/paranoid.mov',    icon: 'ti-video',  type: 'video' },
+  { name: 'VIRGIL',                 src: 'videos/virgil.mp4',      icon: 'ti-video',  type: 'video' },
+  { name: 'BIM',                    src: 'videos/bim.mp4',         icon: 'ti-video',  type: 'video' },
+];
 
   const winLabels = { cv:'CV.pdf', work:'Work', contact:'Contact', archive:'Archive' };
   const winIcons  = { cv:'ti-file-text', work:'ti-folder', contact:'ti-mail', archive:'ti-archive' };
@@ -551,8 +554,7 @@
   let qlCurrent = 0;
   let dragEl = null, dragOffX = 0, dragOffY = 0, clickTimer = null;
 
-  /* ── BUILD DESKTOP ── */
-  function buildDesktop() {
+function buildDesktop() {
     const canvas = document.getElementById('canvas');
     const cols = 5, colW = 84, rowH = 96, startX = 20, startY = 20;
     desktopFiles.forEach((f, i) => {
@@ -561,7 +563,13 @@
       el.style.left = (startX + (i % cols) * colW) + 'px';
       el.style.top  = (startY + Math.floor(i / cols) * rowH) + 'px';
       el.dataset.idx = i;
-      el.innerHTML = `<div class="file-thumb"><img src="${f.src}" alt="" onerror="this.style.display='none'" /><i class="ti ${f.icon}"></i></div><span class="file-name">${f.name}</span>`;
+
+      const thumb = f.type === 'video'
+        ? `<video src="${f.src}#t=0.5" preload="metadata" muted playsinline style="width:100%;height:100%;object-fit:cover;display:block;border-radius:8px;"></video>`
+        : `<img src="${f.src}" alt="" onerror="this.style.display='none'" />`;
+
+      el.innerHTML = `<div class="file-thumb">${thumb}<i class="ti ${f.icon}"></i></div><span class="file-name">${f.name}</span>`;
+
       el.addEventListener('mousedown', startDrag);
       el.addEventListener('touchstart', startDragTouch, { passive: false });
       canvas.appendChild(el);
